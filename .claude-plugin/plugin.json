@@ -1,0 +1,10 @@
+{
+  "name": "linkify",
+  "version": "0.1.0",
+  "description": "Make bare URLs and GitHub issue references (#123, owner/repo#123) in Claude's replies clickable",
+  "author": { "name": "babarot", "url": "https://github.com/babarot" },
+  "homepage": "https://github.com/babarot/claude-linkify",
+  "repository": "https://github.com/babarot/claude-linkify",
+  "license": "MIT",
+  "keywords": ["links", "github", "issues", "mod", "terminal", "claude-code"]
+}

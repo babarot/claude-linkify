@@ -1,0 +1,13 @@
+{
+  "name": "claude-linkify",
+  "owner": { "name": "babarot", "url": "https://github.com/babarot" },
+  "description": "Clickable URLs and GitHub references in Claude Code replies",
+  "plugins": [
+    {
+      "name": "linkify",
+      "source": "./",
+      "description": "Make bare URLs and GitHub issue references (#123, owner/repo#123) in Claude's replies clickable",
+      "category": "productivity"
+    }
+  ]
+}

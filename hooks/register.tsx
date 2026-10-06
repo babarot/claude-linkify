@@ -20,13 +20,16 @@ async function currentRepo($: EngineInterface): Promise<string | null> {
   return repoFor.repo
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  // A change in /config reloads the module, so this is read once.
+  const linkifyOptions = { repoRefs: options.repoRefs !== false }
+
   on('ui.render', { component: 'AssistantMessage' }, async ($, e, next) => {
     const repo = await currentRepo($)
     const key = `${repo ?? ''}\n${e.props.text}`
     let text = cache.get(key)
     if (text === undefined) {
-      text = linkify(e.props.text, repo)
+      text = linkify(e.props.text, repo, linkifyOptions)
       cache.set(key, text)
       if (cache.size > CACHE_SIZE) cache.delete(cache.keys().next().value!)
     }

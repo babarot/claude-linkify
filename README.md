@@ -1,6 +1,8 @@
 # claude-linkify
 
-A Claude Code mod that makes links in Claude's replies clickable: bare URLs, and GitHub issue and pull request references like `#123` and `owner/repo#123`.
+A Claude Code mod that makes links in Claude's replies clickable: bare URLs, and GitHub issue and pull request references like `#123`, `PR#123`, `repo#123` and `owner/repo#123`.
+
+<img alt="Claude Code replying #1 and babarot/gh-infra#123, both drawn as links" src="docs/screenshot.png" width="600">
 
 ## Install
 
@@ -11,17 +13,23 @@ claude plugin install linkify@claude-linkify
 
 Then start a new session, or run `/reload-plugins` in one.
 
-It needs a Claude Code version with mods (TypeScript plugin hooks). Tested with Claude Code 2.1.290 on macOS.
+It needs a Claude Code version with mods (TypeScript plugin hooks). Tested with Claude Code 2.1.291 on macOS.
 
 ## What it links
 
+In a session in `acme/web`:
+
 | Written in a reply | Drawn as a link to |
 | --- | --- |
-| `#123` | `https://github.com/<owner>/<repo>/issues/123`, the repository of the session |
-| `owner/repo#123` | `https://github.com/owner/repo/issues/123`, from any directory |
+| `#4` | `https://github.com/acme/web/issues/4` |
+| `PR#1`, `pull#1` | `https://github.com/acme/web/pull/1` |
+| `issue#2`, `issues#2` | `https://github.com/acme/web/issues/2` |
+| `api#3` | `https://github.com/acme/api/issues/3`, a repository of the same owner |
+| `babarot/hoge#1` | `https://github.com/babarot/hoge/issues/1`, from any directory |
 | `https://example.com/path` | itself |
 
-- The repository for `#123` is read from the `origin` remote of the session's working directory, again whenever the directory changes. Outside a git repository, or when `origin` is not on github.com, `#123` stays text.
+- The session repository is read from the `origin` remote of the session's working directory, again whenever the directory changes. Outside a git repository, or when `origin` is not on github.com, only `owner/repo#123` and URLs are linked.
+- `PR`, `pull`, `issue` and `issues` before `#123` (any case) say what `#123` is in the session repository. Any other name is taken as a repository of the session repository's owner, except words no repository is named after, such as `step`, `no`, `line` or `version`, which stay text.
 - A link to `/issues/123` also works for a pull request: GitHub redirects to it.
 - A URL stops before punctuation that ends the sentence (`.`, `,`, an unbalanced `)`) and before non-ASCII text that follows it directly.
 
@@ -29,10 +37,16 @@ These are left alone:
 
 - Fenced code blocks and inline code
 - Existing markdown links and autolinks (`<https://...>`)
-- References with a word character right before or after them, as GitHub's own autolinking does: `PR#1`, `#12abc`, `a&#123;`
+- References with a word character right after them (`#12abc`, `#1-2`), and a `#` right after `&` (`a&#123;`)
 - A `#` inside a URL (`https://example.com/a#12`)
 
 Only the drawing changes. The stored message and what the model reads stay as written.
+
+## Settings
+
+| Option | Default | What it does |
+| --- | --- | --- |
+| `repoRefs` | `true` | Link `repo#123` to a repository of the session repository's owner. Turn it off in `/config` if names before `#` in your replies link to repositories that don't exist. `PR#`, `issue#` and `#123` are linked either way |
 
 ## How it works
 

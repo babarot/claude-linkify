@@ -52,6 +52,8 @@ claude plugin test .
 
 The editor types live in `.claude-plugin/types/`. Claude Code generates them when it loads the mod, and they are not committed.
 
+Releases are made with [tagpr](https://github.com/Songmu/tagpr). Merging its release PR bumps `version` in `.claude-plugin/plugin.json`, which is what makes `claude plugin update` pick up the new version, then tags `vX.Y.Z` and publishes a GitHub Release. Label a PR `kind/feature` or `release/minor` for a minor release, `kind/breaking-change` or `release/major` for a major one.
+
 ## License
 
 MIT

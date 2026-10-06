@@ -1,0 +1,11 @@
+# config file for the tagpr in git config format
+# vim: ft=ini
+[tagpr]
+	releaseBranch = main
+	vPrefix = true
+	# Claude Code keeps marketplace installs on this version until it
+	# changes, so the release PR bumping it is what ships an update.
+	versionFile = .claude-plugin/plugin.json
+	changelog = true
+	majorLabels = release/major,kind/breaking-change
+	minorLabels = release/minor,kind/feature,kind/deprecation

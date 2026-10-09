@@ -7,5 +7,5 @@
 	# changes, so the release PR bumping it is what ships an update.
 	versionFile = .claude-plugin/plugin.json
 	changelog = true
-	majorLabels = release/major,kind/breaking-change
-	minorLabels = release/minor,kind/feature,kind/deprecation
+	majorLabels = kind/breaking-change
+	minorLabels = kind/feature,kind/deprecation
